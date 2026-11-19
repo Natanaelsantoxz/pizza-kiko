@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kiko Pizzas – Nova Direção</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#0b0b0b;--card:#151515;--line:#2a2a2a;--tx:#fff;--mut:#a8a8a8;--ac:#d3202a;--ac2:#ffb703;--on:#fff;--gr:#2f8f3a;color-scheme:dark;--disp:"Bebas Neue",Impact,"Arial Narrow",sans-serif}
+html{scroll-padding-top:60px;scroll-behavior:smooth;background:var(--bg)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding-bottom:96px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+.wrap{max-width:680px;margin:0 auto;padding:0 16px}
+header{text-align:center;padding:28px 16px 22px;background:radial-gradient(circle at 50% 38%,rgba(211,32,42,.4),transparent 62%),var(--bg)}
+.tri{height:4px;background:var(--ac)}
+#logo{width:min(66vw,260px);margin:0 auto;cursor:pointer;-webkit-tap-highlight-color:transparent}
+#logo svg{width:100%;height:auto;display:block;filter:drop-shadow(0 0 26px rgba(211,32,42,.5))}
+.tag{font:400 20px var(--disp);letter-spacing:3px;color:#fff;margin-top:14px;text-transform:uppercase}
+nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:9;border-bottom:1px solid var(--line);display:flex;justify-content:center;gap:24px;overflow-x:auto;padding:12px 16px}
+nav a{white-space:nowrap;color:#fff;text-decoration:none;font:400 19px var(--disp);letter-spacing:2px;padding-bottom:2px;border-bottom:3px solid transparent}
+nav a:active{border-color:var(--ac)}
+h2{font:400 36px var(--disp);letter-spacing:1.5px;color:#fff;margin:32px 0 12px;border-left:6px solid var(--ac);padding-left:12px;text-transform:uppercase}
+.item{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:10px;display:flex;gap:12px;align-items:center;justify-content:space-between}
+.item b{display:block;font:400 22px var(--disp);letter-spacing:.8px}
+.item small{color:var(--mut);display:block;margin-top:2px}
+.pr{color:var(--ac);font-weight:800;margin-top:4px;display:block;font-size:16px}
+.q{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.q button,.btn{border:0;font-weight:800;cursor:pointer;font-size:15px}
+.q button{width:34px;height:34px;border-radius:50%;background:var(--ac);color:var(--on)}
+.q button.m{background:transparent;color:#fff;border:1.5px solid #444}
+.q span{min-width:16px;text-align:center;font-weight:700}
+.btn{background:var(--ac);color:var(--on);padding:15px 18px;width:100%;border-radius:12px;font:400 21px var(--disp);letter-spacing:1.2px}
+.btn:disabled{opacity:.6;cursor:default}
+.btn.ok{background:#fff;color:#111}
+#bar{position:fixed;left:0;right:0;bottom:0;background:#000;border-top:2px solid var(--ac);padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));z-index:20}
+#bar .btn{display:flex;justify-content:space-between;max-width:680px;margin:0 auto}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:30;display:none;align-items:flex-end;justify-content:center}
+.ov.on{display:flex}
+.sheet{background:#111;width:100%;max-width:560px;max-height:92%;overflow:auto;border-radius:20px 20px 0 0;padding:22px 16px calc(22px + env(safe-area-inset-bottom,0px));border-top:4px solid var(--ac)}
+.sheet h2,#panel h2{margin-top:0}
+label{display:block;font-size:12px;color:var(--mut);margin:12px 0 4px;font-weight:700;text-transform:uppercase;letter-spacing:1px}
+input,select,textarea{width:100%;background:#0b0b0b;color:#fff;border:1px solid #333;border-radius:10px;padding:12px;font:inherit}
+.row{display:flex;justify-content:space-between;padding:5px 0}
+.tot{font:400 24px var(--disp);letter-spacing:1px;color:var(--ac);border-top:1px solid var(--line);margin-top:8px;padding-top:10px}
+footer{text-align:center;color:var(--mut);font-size:12px;padding:34px 16px}
+/* ===== animação da logo: pizza cortada em 8 ===== */
+#logo svg *{transform-box:fill-box;transform-origin:center}
+.disc{animation:pop .6s cubic-bezier(.2,1.4,.4,1) both}
+.pzin{animation:spin 1s .2s cubic-bezier(.2,.8,.2,1) both,bob 3.2s 4s ease-in-out infinite}
+.cl{stroke:#fff6d8;stroke-width:3;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:draw .3s calc(1.2s + var(--i)*.3s) linear forwards,gone .25s 2.45s forwards}
+.cu{opacity:0;animation:cut .3s calc(1.2s + var(--i)*.3s) linear both}
+.wh{animation:rot .25s linear infinite}
+.sl{animation:ex 1.4s calc(2.4s + var(--i)*.04s) cubic-bezier(.3,1.4,.5,1) both}
+.bs{animation:rib .7s 2.9s cubic-bezier(.2,1.2,.4,1) both}
+.bt{animation:fade .5s 3.4s both}
+.nd{animation:fade .6s 3.7s both}
+.lf{animation:leaf .6s 3.9s cubic-bezier(.2,1.4,.4,1) both}
+.sh{animation:shine 3.6s 4.4s ease-in-out infinite}
+.sp{fill:#ffd23f;animation:tw 1.6s calc(4s + var(--i)*.4s) ease-in-out infinite;opacity:0}
+@keyframes pop{from{transform:scale(0);opacity:0}to{transform:none;opacity:1}}
+@keyframes spin{from{transform:rotate(-540deg) scale(.1);opacity:0}to{transform:rotate(0) scale(1);opacity:1}}
+@keyframes bob{50%{transform:translateY(-4px) rotate(2deg)}}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes gone{to{opacity:0}}
+@keyframes cut{0%{opacity:0;transform:translate(var(--x1),var(--y1))}10%,90%{opacity:1}100%{opacity:0;transform:translate(var(--x2),var(--y2))}}
+@keyframes rot{to{transform:rotate(360deg)}}
+@keyframes ex{0%,100%{transform:none}40%,62%{transform:translate(var(--dx),var(--dy)) rotate(var(--r))}}
+@keyframes rib{from{transform:scaleX(0) rotate(-4deg);opacity:0}to{transform:rotate(-4deg);opacity:1}}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes leaf{from{transform:scale(0) rotate(-90deg);opacity:0}to{transform:none;opacity:1}}
+@keyframes shine{0%,60%{transform:translateX(-120px)}100%{transform:translateX(140px)}}
+@keyframes tw{0%,100%{opacity:0;transform:scale(.2)}50%{opacity:1;transform:scale(1) rotate(45deg)}}
+@media (prefers-reduced-motion:reduce){#logo svg *{animation:none!important}.cl,.cu,.sp{display:none}}
+
+#panel{padding:14px 16px 60px}
+.tabs{display:flex;gap:8px;margin:12px 0;flex-wrap:wrap}
+.tabs button,.btn.s{border:0;border-radius:10px;font-weight:800;cursor:pointer;font-size:13px;padding:9px 14px;background:var(--line);color:var(--tx)}
+.tabs button.on,.btn.s{background:var(--ac);color:var(--on)}
+.btn.s{width:auto;font:800 13px system-ui;letter-spacing:0;border-radius:10px}.btn.g{background:var(--line);color:var(--tx)}.btn.no{background:#555;color:#fff}
+.oc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.oc.novo{border-color:var(--ac2);box-shadow:0 0 0 2px rgba(255,183,3,.3)}
+.st{display:inline-block;padding:3px 10px;border-radius:99px;font-size:11px;font-weight:800;text-transform:uppercase;background:var(--line)}
+.st.novo{background:var(--ac2);color:#111}.st.entregue{background:var(--gr);color:#fff}.st.recusado{background:#555;color:#fff}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.ed{display:grid;gap:6px;grid-template-columns:1fr 90px auto;margin-bottom:6px}.ed.d{grid-template-columns:1fr}
+.mut{color:var(--mut);font-size:13px}
+.err{color:#ff6b6b;font-size:13px}
+.okk{color:#6fdc7b;font-size:13px}
+#ticket{display:none}
+@media print{body>*:not(#ticket){display:none!important}#ticket{display:block!important;font:13px/1.4 monospace;color:#000;background:#fff;width:72mm}body::before{display:none}}
+
+.bl{display:flex;align-items:center;gap:10px}
+#boxi{display:block;width:44px;height:36px}#boxi svg{width:44px;height:36px;display:block;overflow:visible}
+#bx{position:fixed;inset:0;z-index:60;background:radial-gradient(circle at 50% 38%,rgba(211,32,42,.4),rgba(0,0,0,.96) 70%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;animation:fade0 .3s both;overflow:auto}
+.bxwrap{position:relative;width:min(74vw,310px);flex-shrink:0;margin-top:20px}
+.bxwrap>svg{width:100%;height:auto;display:block;overflow:visible}
+#bx .bxpz,#bx .bxbag,#bx .bxhop{transform-box:fill-box;transform-origin:center}
+.bxbag{animation:pop .5s cubic-bezier(.2,1.4,.4,1) both}
+.bxpz{animation:bxdrop .8s .5s cubic-bezier(.5,0,.8,.6) both}
+.bxhop{animation:bxhop .6s 1.4s ease-out both}
+.bxlogo{position:absolute;left:29%;top:46%;width:42%;animation:pop .5s 1.6s cubic-bezier(.2,1.4,.4,1) both}
+.bxlogo svg{width:100%;height:auto;display:block;filter:drop-shadow(0 4px 8px rgba(0,0,0,.4))}
+.bxmsg{width:min(88vw,360px);animation:fade .5s 2.4s both;margin-top:10px}
+#bx h2{border:0;padding:0;text-align:center;margin:10px 0 6px}
+@keyframes fade0{from{opacity:0}}
+@keyframes bxdrop{0%{transform:translateY(-120px) rotate(-140deg);opacity:0}20%{opacity:1}100%{transform:translateY(85px) rotate(0);opacity:1}}
+@keyframes bxhop{30%{transform:scaleY(.92) translateY(4px)}60%{transform:translateY(-16px)}100%{transform:none}}
+@media (prefers-reduced-motion:reduce){#bx *{animation:none!important}}
+</style></head><body>
+<div id="site">
+<header>
+  <div id="logo" title="Toque para reanimar"></div>
+  <div class="tag">Pizza quentinha, direto no seu portão</div>
+</header>
+<div class="tri"></div>
+<nav id="nav"></nav>
+<main class="wrap" id="menu"></main>
+<footer>Kiko Pizzas – Nova Direção · Peça pelo WhatsApp<br><a href="#painel" style="color:inherit">Área do profissional</a></footer>
+<div id="bar"><button class="btn" id="cartBtn"><span class="bl"><span id="boxi"></span><span id="cn"></span></span><span id="ct"></span></button></div>
+</div>
+<div class="ov" id="ov"><div class="sheet" id="sheet"></div></div>
+<div id="panel" class="wrap" style="display:none"></div>
+<div id="ticket"></div>
+<script>
+const $=s=>document.querySelector(s),gid=s=>document.getElementById(s),R=v=>"R$ "+Number(v).toFixed(2).replace(".",","),esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* ===== Supabase (chave publicável: pode ficar no site; a proteção é feita pelo RLS) ===== */
+const SB_URL="https://zotqcsbpspvivspkepxq.supabase.co/rest/v1/",SB_KEY="sb_publishable_gA9Ssx-X7KwkvOLOyd0v0w_KL0LmxK3";
+async function sb(path,opt){
+  opt=opt||{};
+  const r=await fetch(SB_URL+path,Object.assign({},opt,{headers:Object.assign({apikey:SB_KEY,"Content-Type":"application/json"},opt.headers||{})}));
+  const t=await r.text();if(!r.ok)throw new Error(t||String(r.status));
+  return t?JSON.parse(t):null;
+}
+const rpc=(fn,args)=>sb("rpc/"+fn,{method:"POST",body:JSON.stringify(args)});
+
+/* ===== configuração padrão (o que estiver salvo no Supabase substitui isto) ===== */
+const CFG={nome:"Kiko Pizzas",zap:"5519999999999",tempo:"40 a 50 min",endereco:"Piracicaba, SP",taxa_base:5,valor_km:2,dist_max:10,gratis_acima:null,
+sizes:[["Broto","4 fatias"],["Média","6 fatias"],["Grande","8 fatias"],["Gigante","12 fatias"]],
+m:{aceito:"Olá {nome}! 🍕 Seu pedido #{pedido} foi confirmado e já está no forno. Previsão: {tempo}. Total: {total}. Obrigado por escolher a {loja}!",pronto:"{nome}, seu pedido #{pedido} está pronto! 🍕 Já já sai para entrega.",entrega:"{nome}, seu pedido #{pedido} saiu para entrega! 🛵 Chega em instantes.",entregue:"{nome}, pedido #{pedido} entregue. Bom apetite! 😋 Obrigado pela preferência – {loja}, Nova Direção.",recusado:"Olá {nome}, infelizmente não conseguimos atender o pedido #{pedido} agora. Desculpe o transtorno 🙏 Fale com a gente para ajustarmos."},
+menu:[["Tradicionais",[["p1","Mussarela",45,"Molho de tomate, mussarela e orégano",[25,34,45,58]],["p2","Calabresa",48,"Calabresa fatiada, cebola e mussarela",[26,36,48,62]],["p3","Portuguesa",52,"Presunto, ovo, cebola, ervilha e mussarela",[29,39,52,68]],["p4","Frango com Catupiry",52,"Frango desfiado e catupiry cremoso",[29,39,52,68]],["p5","Margherita",50,"Mussarela, tomate fresco e manjericão",[28,38,50,65]]],true],["Especiais",[["e1","Pepperoni",58,"Pepperoni crocante e mussarela",[32,44,58,75]],["e2","Quatro Queijos",56,"Mussarela, parmesão, provolone e catupiry",[31,42,56,73]],["e3","Bacon Crocante",56,"Bacon, mussarela e cebola caramelizada",[31,42,56,73]]],true],["Doces",[["d1","Chocolate",48,"Chocolate ao leite com granulado",[26,36,48,62]],["d2","Banana com Canela",46,"Banana, açúcar e canela",[25,34,46,60]]],true],["Bebidas",[["b1","Coca-Cola 2L",15,"",[]],["b2","Guaraná 2L",14,"",[]],["b3","Suco 300ml",8,"",[]],["b4","Água",5,"",[]]],false]]};
+let MENU,ALL;
+function idx(){MENU=CFG.menu;ALL={};MENU.forEach(c=>c[1].forEach(i=>ALL[i[0]]=i))}idx();
+function applyCfg(c){
+  if(!c)return;
+  ["nome","zap","tempo","endereco"].forEach(k=>{if(c[k])CFG[k]=c[k]});
+  ["taxa_base","valor_km","dist_max"].forEach(k=>{if(c[k]!=null&&!isNaN(+c[k]))CFG[k]=+c[k]});
+  CFG.gratis_acima=(c.gratis_acima!=null&&+c.gratis_acima>0)?+c.gratis_acima:null;
+  if(c.mensagens)CFG.m=Object.assign({},CFG.m,c.mensagens);
+  if(c.cardapio&&Array.isArray(c.cardapio.menu)&&c.cardapio.menu.length){CFG.menu=c.cardapio.menu;if(Array.isArray(c.cardapio.sizes)&&c.cardapio.sizes.length)CFG.sizes=c.cardapio.sizes}
+  idx();
+}
+async function loadConfig(){try{const r=await sb("config?id=eq.1&select=*");if(r&&r[0]){applyCfg(r[0]);renderMenu()}}catch(e){}}
+
+const cart={};
+function info(k){const[a,b]=k.split(":"),it=ALL[a];return b===undefined?{n:it[1],p:Number(it[2])||0}:{n:`${it[1]} (${CFG.sizes[b]?CFG.sizes[b][0]:b})`,p:Number((it[4]||[])[b])||0}}
+/* ===== sons ===== */
+let AC;function ac(){try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==="suspended")AC.resume()}catch(e){}return AC}
+addEventListener("pointerdown",ac);
+function ding(n){const c=ac();if(!c)return;for(let i=0;i<(n||1);i++)[[880,0],[1175,.13]].forEach(([f,d])=>{const o=c.createOscillator(),g=c.createGain(),t=c.currentTime+i*.7+d;o.frequency.value=f;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.35,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+.45);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+.5)})}
+/* ===== LOGO recriada em SVG ===== */
+const P=(a,r)=>[150+r*Math.cos(a),100+r*Math.sin(a)],D=Math.PI/180;
+const pep=[[128,92],[170,96],[150,126],[112,128],[188,130],[132,158],[168,160],[150,76]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="9" fill="#c1272d" stroke="#8f1a1f" stroke-width="1.5"/>`).join("");
+const BASE=`<circle cx="150" cy="100" r="80" fill="#e8a13a" stroke="#b8741a" stroke-width="3"/><circle cx="150" cy="100" r="68" fill="#d62828"/><circle cx="150" cy="100" r="62" fill="#ffc83d"/>${pep}<path d="M96 68c8-6 16-4 18 4-8 6-16 4-18-4zM190 70c8-4 14 0 16 6-8 5-14 2-16-6zM176 150c7-6 15-3 17 4-8 5-15 3-17-4z" fill="#2f8f3a"/>`;
+let clips="",sl="",ln="";
+for(let k=0;k<8;k++){
+  const a0=(-90+k*45)*D,a1=a0+Math.PI/4,m=a0+Math.PI/8,p0=P(a0,130),p1=P(a1,130);
+  clips+=`<clipPath id="w${k}"><polygon points="150,100 ${p0} ${p1}"/></clipPath>`;
+  sl+=`<g class="sl" style="--i:${k};--dx:${(17*Math.cos(m)).toFixed(1)}px;--dy:${(17*Math.sin(m)).toFixed(1)}px;--r:${k%2?5:-5}deg"><use href="#pizza" clip-path="url(#w${k})"/></g>`;
+}
+for(let i=0;i<4;i++){
+  const t=(-90+i*45)*D,A=i%2?P(t+Math.PI,90):P(t,90),B=i%2?P(t,90):P(t+Math.PI,90);
+  ln+=`<line class="cl" pathLength="1" style="--i:${i}" x1="${A[0]}" y1="${A[1]}" x2="${B[0]}" y2="${B[1]}"/>`;
+  ln+=`<g class="cu" style="--i:${i};--x1:${A[0]}px;--y1:${A[1]}px;--x2:${B[0]}px;--y2:${B[1]}px"><line x1="0" y1="0" x2="15" y2="-15" stroke="#bbb" stroke-width="3.5" stroke-linecap="round"/><circle r="8" fill="#eee" stroke="#555" stroke-width="2"/><circle class="wh" r="4.5" fill="none" stroke="#777" stroke-width="2" stroke-dasharray="3 3"/></g>`;
+}
+const LOGO=`<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Kiko Pizzas – Nova Direção">
+<defs><g id="pizza">${BASE}</g>${clips}</defs>
+<circle class="disc" cx="150" cy="150" r="148" fill="#111" stroke="#2a2a2a" stroke-width="3"/>
+<g class="pzin">${sl}${ln}</g>
+<g class="bs">
+ <path d="M26 164l30 4v44l-30 4 12-26z" fill="#9c141b"/><path d="M274 164l-30 4v44l30 4-12-26z" fill="#9c141b"/>
+ <rect x="46" y="158" width="208" height="58" rx="3" fill="#d3202a" stroke="#fff" stroke-width="3"/>
+ <rect class="sh" x="46" y="158" width="26" height="58" fill="#fff" opacity=".22" transform="skewX(-20)"/>
+</g>
+<text class="bt" x="150" y="204" text-anchor="middle" font-family="'Bebas Neue',Impact,sans-serif" font-size="50" letter-spacing="2" fill="#fff" stroke="#3a0a0c" stroke-width="2.5" paint-order="stroke" transform="rotate(-4 150 190)">KIKO PIZZAS</text>
+<text class="nd" x="150" y="246" text-anchor="middle" font-family="'Bebas Neue',Impact,sans-serif" font-size="20" letter-spacing="4" fill="#fff">NOVA DIREÇÃO</text>
+<g class="lf"><path d="M82 262c20 10 40 12 68 12s48-2 68-12c-18 6-44 6-68 6s-50 0-68-6z" fill="#2f8f3a"/>
+<ellipse cx="96" cy="262" rx="14" ry="5" fill="#3aa84a" transform="rotate(-20 96 262)"/><ellipse cx="204" cy="262" rx="14" ry="5" fill="#3aa84a" transform="rotate(20 204 262)"/></g>
+<path class="sp" style="--i:0" d="M52 62l4 10 10 4-10 4-4 10-4-10-10-4 10-4z"/><path class="sp" style="--i:1" d="M250 90l3 8 8 3-8 3-3 8-3-8-8-3 8-3z"/><path class="sp" style="--i:2" d="M232 36l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/>
+</svg>`;
+const logo=$("#logo");logo.innerHTML=LOGO;logo.onclick=()=>{logo.innerHTML="";requestAnimationFrame(()=>logo.innerHTML=LOGO)};
+
+
+/* ===== caixa de pizza ===== */
+const MINIBOX=`<svg viewBox="0 0 44 36"><circle id="mpz" cx="22" cy="9" r="5.5" fill="#e8a13a" stroke="#fff" stroke-width="1.2" style="transform:scale(0)"/><g id="mbag"><path d="M16 14C16 2 28 2 28 14" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><rect x="8" y="13" width="28" height="21" rx="3" fill="#d3202a" stroke="#fff" stroke-width="1.6"/><circle cx="22" cy="24" r="5" fill="#111"/><circle cx="22" cy="24" r="2" fill="#d3202a"/></g></svg>`;
+$("#boxi").innerHTML=MINIBOX;
+function boxOpen(){
+  const G=gid("mbag"),P=gid("mpz");if(!G||!G.animate)return;
+  P.style.transformOrigin="22px 9px";G.style.transformOrigin="22px 34px";
+  P.animate([{transform:"scale(0)"},{transform:"scale(1)",offset:.25},{transform:"translateY(8px) scale(.9)",offset:.55},{transform:"translateY(18px) scale(.5)"}],{duration:700});
+  G.animate([{transform:"none"},{transform:"none",offset:.5},{transform:"rotate(-9deg)",offset:.65},{transform:"rotate(7deg)",offset:.8},{transform:"rotate(-3deg)",offset:.9},{transform:"none"}],{duration:900});
+  gid("boxi").animate([{transform:"scale(1)"},{transform:"scale(1.2)",offset:.55},{transform:"scale(1)"}],{duration:900});
+}
+function boxAnim(id,url){
+  const old=gid("bx");if(old)old.remove();
+  const d=document.createElement("div");d.id="bx";
+  d.innerHTML=`<div class="bxwrap"><svg viewBox="0 0 300 300"><g class="bxhop"><g class="bxbag">
+  <ellipse cx="150" cy="296" rx="100" ry="6" fill="#000" opacity=".5"/>
+  <rect x="62" y="98" width="176" height="24" rx="5" fill="#4a0a10"/>
+  <g class="bxpz"><g transform="translate(150,62) scale(.5) translate(-150,-100)">${BASE}</g></g>
+  <rect x="54" y="112" width="192" height="178" rx="10" fill="#d3202a"/>
+  <rect x="54" y="112" width="192" height="16" rx="6" fill="#a8141c"/>
+  <rect x="54" y="266" width="192" height="5" fill="#fff" opacity=".9"/>
+  <path d="M112 114C108 40 192 40 188 114" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+  </g></g></svg><div class="bxlogo">${LOGO}</div></div>
+  <div class="bxmsg"><h2>Pedido #${id} pronto!</h2><p class="mut" style="text-align:center;margin:0 0 14px">Falta só enviar para a pizzaria pelo WhatsApp.</p><button class="btn ok" id="bx-wa">Enviar pelo WhatsApp</button><button class="btn" style="margin-top:10px;background:transparent;border:1px solid #444" id="bx-x">Fechar</button></div>`;
+  document.body.appendChild(d);
+  setTimeout(()=>ding(1),1250);setTimeout(()=>ding(2),1700);
+  gid("bx-wa").onclick=()=>window.open(url,"_blank");
+  gid("bx-x").onclick=()=>d.remove();
+}
+
+/* ===== cardápio (cliente) ===== */
+const qb=k=>`<div class="q"><button class="m" onclick="chg('${k}',-1)" aria-label="Remover">−</button><span data-n id="n-${k}">0</span><button onclick="chg('${k}',1,this)" aria-label="Adicionar">+</button></div>`;
+const total=()=>Object.entries(cart).reduce((s,[k,q])=>s+info(k).p*q,0),count=()=>Object.values(cart).reduce((a,b)=>a+b,0);
+function upd(){const n=count();$("#cn").textContent=n?`Ver pedido (${n})`:"Sua sacola está vazia";$("#ct").textContent=R(total())}
+function renderMenu(){
+  $("#nav").innerHTML=MENU.map((c,i)=>`<a href="#c${i}" onclick="event.preventDefault();gid('c${i}').scrollIntoView()">${esc(c[0])}</a>`).join("");
+  $("#menu").innerHTML=MENU.map((c,i)=>`<h2 id="c${i}">${esc(c[0])}</h2>`+c[1].map(it=>c[2]?
+   `<div class="item" style="display:block"><b>${esc(it[1])}</b>${it[3]?`<small>${esc(it[3])}</small>`:""}${CFG.sizes.map((s,j)=>`<div class="row" style="align-items:center;border-top:1px solid var(--line);margin-top:8px;padding-top:8px"><div>${esc(s[0])} <span class="mut">· ${esc(s[1])}</span><span class="pr">${R((it[4]||[])[j]||0)}</span></div>${qb(it[0]+":"+j)}</div>`).join("")}</div>`:
+   `<div class="item"><div><b>${esc(it[1])}</b>${it[3]?`<small>${esc(it[3])}</small>`:""}<span class="pr">${R(it[2])}</span></div>${qb(it[0])}</div>`).join("")).join("");
+  Object.keys(cart).forEach(k=>{if(!ALL[k.split(":")[0]])delete cart[k]});
+  Object.entries(cart).forEach(([k,q])=>{const s=gid("n-"+k);if(s)s.textContent=q});
+  upd();
+}
+function fly(el){
+  if(!el||!el.animate)return;
+  const b=gid("boxi").getBoundingClientRect(),a=el.getBoundingClientRect(),f=document.createElement("div");
+  f.textContent="🍕";f.style.cssText=`position:fixed;z-index:50;font-size:26px;pointer-events:none;left:${a.left+a.width/2-13}px;top:${a.top+a.height/2-13}px`;document.body.appendChild(f);
+  const dx=b.left+b.width/2-a.left-a.width/2,dy=b.top+b.height*.4-a.top-a.height/2;
+  el.animate([{transform:"scale(1)"},{transform:"scale(1.4) rotate(90deg)"},{transform:"scale(1)"}],{duration:320});
+  f.animate([{transform:"translate(0,0) scale(1) rotate(0)"},{transform:`translate(${dx*.5}px,${dy*.5-120}px) scale(1.5) rotate(180deg)`,offset:.5},{transform:`translate(${dx}px,${dy}px) scale(.45) rotate(360deg)`,opacity:.9}],{duration:720,easing:"cubic-bezier(.3,.1,.4,1)"}).onfinish=()=>f.remove();
+  setTimeout(boxOpen,430);
+}
+function chg(k,d,el){cart[k]=Math.max(0,(cart[k]||0)+d);if(!cart[k])delete cart[k];const s=gid("n-"+k);s.textContent=cart[k]||0;if(d>0){s.animate([{transform:"scale(1)"},{transform:"scale(1.6)",color:"#d62828"},{transform:"scale(1)"}],{duration:300});fly(el)}upd()}
+$("#ov").onclick=e=>{if(e.target.id==="ov")$("#ov").classList.remove("on")};
+const num=t=>{t=String(t).replace(/\D/g,"");return t.length<=11?"55"+t:t};
+const wa=(tel,txt)=>window.open("https://wa.me/"+num(tel)+"?text="+encodeURIComponent(txt),"_blank");
+const kmTxt=k=>Number(k).toFixed(1).replace(".",",");
+
+/* ===== cálculo da entrega (Piracicaba): OpenStreetMap, sem chave ===== */
+const GC={};
+async function geo(q,precisaPira){
+  const key=q+"|"+(precisaPira?1:0);if(GC[key])return GC[key];
+  try{
+    const r=await fetch("https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=br&accept-language=pt-BR&q="+encodeURIComponent(q));
+    const j=await r.json();
+    if(j&&j[0]&&(!precisaPira||/piracicaba/i.test(j[0].display_name||""))){return GC[key]={lat:+j[0].lat,lon:+j[0].lon}}
+  }catch(e){}
+  return null;
+}
+const hav=(a,b)=>{const t=x=>x*D,dLa=t(b.lat-a.lat),dLo=t(b.lon-a.lon),h=Math.sin(dLa/2)**2+Math.cos(t(a.lat))*Math.cos(t(b.lat))*Math.sin(dLo/2)**2;return 6371*2*Math.asin(Math.sqrt(h))};
+async function dist(a,b){
+  try{
+    const r=await fetch(`https://router.project-osrm.org/route/v1/driving/${a.lon},${a.lat};${b.lon},${b.lat}?overview=false`);
+    const j=await r.json();
+    if(j&&j.routes&&j.routes[0])return j.routes[0].distance/1000;
+  }catch(e){}
+  return hav(a,b)*1.3;
+}
+async function calcEntrega(rua,bairro,sub){
+  try{
+    const oq=/piracicaba/i.test(CFG.endereco)?CFG.endereco:CFG.endereco+", Piracicaba, SP";
+    const o=await geo(oq+", Brasil",false);
+    const semNum=rua.replace(/[,\s]*(n[º°o]?\s*)?\d+.*$/i,"").trim()||rua;
+    let d=null;
+    for(const q of [`${rua}, ${bairro}, Piracicaba, SP, Brasil`,`${semNum}, ${bairro}, Piracicaba, SP, Brasil`,`${semNum}, Piracicaba, SP, Brasil`]){d=await geo(q,true);if(d)break}
+    if(!o||!d)return{st:"nao"};
+    const km=Math.round((await dist(o,d))*10)/10;
+    if(km>CFG.dist_max)return{st:"fora",km};
+    let fee=CFG.taxa_base+CFG.valor_km*km;
+    if(CFG.gratis_acima&&sub>=CFG.gratis_acima)fee=0;
+    return{st:"ok",km,fee:Math.round(fee*100)/100};
+  }catch(e){return{st:"nao"}}
+}
+let ENT=null;
+function drawTot(){
+  const e=gid("t-ent");if(!e)return;const sub=total();let t="a calcular",v=sub;
+  if(ENT&&ENT.st==="ok"){t=ENT.fee?R(ENT.fee):"Grátis";v=sub+ENT.fee}
+  else if(ENT&&ENT.st==="nao")t="a combinar";
+  else if(ENT&&ENT.st==="fora")t="fora da área";
+  e.textContent=t;gid("t-tot").textContent=R(v);
+}
+async function doCalc(){
+  const r=$("#f-r").value.trim(),b=$("#f-b").value.trim(),fe=gid("f-fee");
+  if(!r||!b){fe.className="err";fe.textContent="Preencha a rua com número e o bairro.";return null}
+  fe.className="mut";fe.textContent="Calculando a entrega…";$("#calc").disabled=true;
+  ENT=await calcEntrega(r,b,total());
+  $("#calc").disabled=false;
+  if(ENT.st==="ok"){fe.className="okk";fe.textContent=`Distância: ${kmTxt(ENT.km)} km · entrega ${ENT.fee?R(ENT.fee):"grátis"}`}
+  else if(ENT.st==="fora"){fe.className="err";fe.textContent=`Esse endereço fica a ${kmTxt(ENT.km)} km: fora da nossa área de entrega (máximo ${CFG.dist_max} km).`}
+  else{fe.className="mut";fe.textContent="Não consegui localizar o endereço. Confira a rua ou envie assim mesmo: a taxa de entrega será combinada pelo WhatsApp."}
+  drawTot();return ENT;
+}
+$("#cartBtn").onclick=()=>{
+  if(!count())return;ENT=null;
+  const lines=Object.entries(cart).map(([k,q])=>`<div class="row"><span>${q}× ${esc(info(k).n)}</span><span>${R(info(k).p*q)}</span></div>`).join("");
+  const regra=`Entrega: ${R(CFG.taxa_base)} + ${R(CFG.valor_km)} por km (até ${CFG.dist_max} km)`+(CFG.gratis_acima?` · grátis em pedidos a partir de ${R(CFG.gratis_acima)}`:"");
+  $("#sheet").innerHTML=`<h2>Seu pedido</h2>${lines}
+  <div class="row"><span>Subtotal</span><span>${R(total())}</span></div>
+  <div class="row"><span>Entrega</span><span id="t-ent">a calcular</span></div>
+  <div class="row tot"><span>Total</span><span id="t-tot">${R(total())}</span></div>
+  <div class="mut">${esc(regra)}</div>
+  <label>Nome</label><input id="f-n" autocomplete="name">
+  <label>Seu WhatsApp</label><input id="f-t" type="tel" placeholder="(19) 90000-0000" autocomplete="tel">
+  <label>Rua e número (Piracicaba)</label><input id="f-r" placeholder="Rua Exemplo, 123" autocomplete="address-line1" oninput="ENT=null;drawTot()">
+  <label>Bairro</label><input id="f-b" autocomplete="address-level3" oninput="ENT=null;drawTot()">
+  <button class="btn s g" style="margin-top:10px" id="calc">Calcular entrega</button>
+  <div id="f-fee" class="mut" style="margin-top:6px"></div>
+  <label>Pagamento</label><select id="f-p"><option>Pix</option><option>Cartão na entrega</option><option>Dinheiro</option></select>
+  <label>Observações</label><textarea id="f-o" rows="2" placeholder="Sem cebola, troco para R$ 100…"></textarea>
+  <button class="btn ok" style="margin-top:16px" id="send">Enviar pedido pelo WhatsApp</button>`;
+  $("#ov").classList.add("on");
+  $("#calc").onclick=doCalc;
+  $("#send").onclick=async()=>{
+    const n=$("#f-n").value.trim(),t=$("#f-t").value.trim(),r=$("#f-r").value.trim(),b=$("#f-b").value.trim();
+    if(!n||!t||!r||!b){alert("Preencha nome, WhatsApp, rua e bairro.");return}
+    const bt=$("#send");bt.disabled=true;bt.textContent="Enviando…";
+    const back=()=>{bt.disabled=false;bt.textContent="Enviar pedido pelo WhatsApp"};
+    if(!ENT)await doCalc();
+    if(!ENT){back();return}
+    if(ENT.st==="fora"){alert(`Desculpe, esse endereço fica fora da nossa área de entrega (máximo ${CFG.dist_max} km).`);back();return}
+    if(ENT.st==="nao"&&!confirm("Não consegui calcular a entrega pelo endereço. Enviar mesmo assim? A taxa será combinada pelo WhatsApp.")){back();return}
+    const id=String(Math.floor(100000+Math.random()*900000)),obs=$("#f-o").value.trim(),sub=total(),fee=ENT.st==="ok"?ENT.fee:0,tot=sub+fee,end=`${r} – ${b}`;
+    const o={id,status:"novo",nome:n,tel:t,endereco:end,pagamento:$("#f-p").value,obs:obs||null,itens:Object.entries(cart).map(([k,q])=>`${q}× ${info(k).n}`),subtotal:sub,taxa_entrega:fee,distancia_km:ENT.st==="ok"?ENT.km:null,total:tot};
+    const entTxt=ENT.st==="ok"?(fee?`${R(fee)} (${kmTxt(ENT.km)} km)`:`Grátis (${kmTxt(ENT.km)} km)`):"a combinar";
+    const txt=`*Pedido #${id} – ${CFG.nome}*\n${o.itens.join("\n")}\n\nSubtotal: ${R(sub)}\nEntrega: ${entTxt}\nTotal: ${R(tot)}${ENT.st==="ok"?"":" (+ entrega)"}\nNome: ${n}\nWhatsApp: ${t}\nEndereço: ${end}\nPagamento: ${o.pagamento}`+(obs?`\nObs: ${obs}`:"");
+    const url="https://wa.me/"+num(CFG.zap)+"?text="+encodeURIComponent(txt);
+    try{await sb("pedidos",{method:"POST",headers:{Prefer:"return=minimal"},body:JSON.stringify(o)})}catch(x){}
+    $("#ov").classList.remove("on");back();boxAnim(id,url);
+    for(const k in cart)delete cart[k];document.querySelectorAll("[data-n]").forEach(s=>s.textContent=0);upd();
+  };
+};
+
+/* ===== área do profissional (protegida por senha no Supabase) ===== */
+const ST={novo:"Novo",aceito:"Em preparo",pronto:"Pronto",entrega:"Saiu p/ entrega",entregue:"Entregue",recusado:"Recusado"};
+const NX={novo:[["aceito","✔ Confirmar",""],["recusado","✖ Rejeitar","no"]],aceito:[["pronto","Pronto",""],["entrega","Saiu p/ entrega",""]],pronto:[["entrega","Saiu p/ entrega",""],["entregue","Entregue",""]],entrega:[["entregue","Entregue",""]]};
+let PW="",ORD=[],tab="ped",DR=null,poll=null;
+try{PW=sessionStorage.getItem("kp_pw")||""}catch(e){}
+function route(){const p=location.hash==="#painel";$("#site").style.display=p?"none":"";$("#panel").style.display=p?"block":"none";clearInterval(poll);if(p)openPanel()}
+addEventListener("hashchange",route);
+
+async function api(fn,args){
+  const r=await rpc(fn,Object.assign({p_senha:PW},args||{}));
+  if(r&&r.ok===false&&!r.erro){logout("Senha incorreta ou muitas tentativas. Se errou várias vezes, aguarde 10 minutos.");throw new Error("auth")}
+  return r;
+}
+function logout(msg){PW="";try{sessionStorage.removeItem("kp_pw")}catch(e){}clearInterval(poll);loginView(msg)}
+function loginView(msg){
+  $("#panel").innerHTML=`<h2 style="margin-top:0">Área do profissional</h2><a href="#" class="mut">← Voltar ao cardápio</a>${msg?`<p class="err">${esc(msg)}</p>`:""}<label>Senha</label><input id="pw" type="password" autocomplete="current-password"><button class="btn ok" style="margin-top:14px" id="pw-ok">Entrar</button>`;
+  const go=async()=>{
+    const v=$("#pw").value;if(!v)return;
+    const b=$("#pw-ok");b.disabled=true;b.textContent="Entrando…";
+    try{
+      const r=await rpc("painel_login",{p_senha:v});
+      if(r&&r.ok){PW=v;try{sessionStorage.setItem("kp_pw",v)}catch(e){}openPanel()}
+      else loginView("Senha incorreta ou muitas tentativas. Se errou várias vezes, aguarde 10 minutos.");
+    }catch(e){loginView("Não foi possível conectar. Verifique a internet e tente de novo.")}
+  };
+  $("#pw-ok").onclick=go;$("#pw").onkeydown=e=>{if(e.key==="Enter")go()};
+}
+async function loadOrders(){const r=await api("painel_pedidos");ORD=(r&&r.pedidos)||[]}
+function mkDR(){const d=JSON.parse(JSON.stringify(CFG));d.gratis_acima=CFG.gratis_acima==null?"":CFG.gratis_acima;return d}
+async function openPanel(){
+  if(!PW){loginView();return}
+  $("#panel").innerHTML="<p>Carregando…</p>";
+  try{await loadConfig();await loadOrders()}catch(e){if(e.message!=="auth")$("#panel").innerHTML='<h2 style="margin-top:0">Área do profissional</h2><p class="err">Não foi possível conectar ao banco de dados.</p><a href="#">← Voltar ao cardápio</a>';return}
+  DR=mkDR();
+  clearInterval(poll);
+  poll=setInterval(async()=>{
+    if(tab!=="ped"||$("#ov").classList.contains("on")||!PW)return;
+    const antes=new Set(ORD.map(o=>o.id));
+    try{await loadOrders()}catch(e){return}
+    if(ORD.some(o=>!antes.has(o.id)))ding(3);
+    draw();
+  },15000);
+  draw();
+}
+function draw(){
+  if(!PW)return;
+  const T=[["ped","Pedidos"],["car","Cardápio"],["cfg","Configurações"]];
+  $("#panel").innerHTML=`<h2 style="margin-top:0">Área do profissional</h2><a href="#" class="mut">← Ver site</a> · <a href="#painel" class="mut" onclick="event.preventDefault();logout()">Sair</a><div class="tabs">${T.map(t=>`<button class="${tab===t[0]?"on":""}" onclick="tab='${t[0]}';draw()">${t[1]}</button>`).join("")}</div>`+(tab==="ped"?tPed():tab==="car"?tCar():tCfg());
+}
+const saveBtn=()=>`<button class="btn ok" style="margin-top:14px" onclick="save()">Salvar e publicar no site</button><p class="mut">Ao salvar, o site é atualizado para todos os clientes.</p>`;
+function tPed(){
+  return `<div class="acts" style="margin:0 0 12px"><button class="btn s" onclick="paste()">📋 Colar pedido do WhatsApp</button><button class="btn s g" onclick="manual()">+ Manual</button><button class="btn s g" onclick="refresh()">↻ Atualizar</button></div>`+
+  (ORD.length?ORD.map(card).join(""):`<p class="mut">Nenhum pedido ainda. Os pedidos feitos no site aparecem aqui sozinhos (a lista atualiza a cada 15 segundos).</p>`);
+}
+async function refresh(){try{await loadOrders()}catch(e){return}draw()}
+function card(o){
+  const it=Array.isArray(o.itens)?o.itens:[],dt=new Date(o.criado_em).toLocaleString("pt-BR",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"});
+  const ent=o.distancia_km!=null||Number(o.taxa_entrega)>0?`Entrega: ${Number(o.taxa_entrega)>0?R(o.taxa_entrega):"grátis"}${o.distancia_km!=null?" · "+kmTxt(o.distancia_km)+" km":""}`:"Entrega: a combinar";
+  return `<div class="oc ${o.status}"><div class="row"><b>#${esc(o.id)} · ${dt}</b><span class="st ${o.status}">${ST[o.status]||esc(o.status)}</span></div>
+  <div>${esc(o.nome)} · ${esc(o.tel)}</div><div class="mut">${esc(o.endereco)}</div><div style="margin:8px 0">${it.map(esc).join("<br>")}</div>
+  ${o.obs?`<div class="mut">Obs: ${esc(o.obs)}</div>`:""}<div class="mut">${ent}</div><div class="row tot"><span>${esc(o.pagamento||"")}</span><span>${R(o.total)}</span></div>
+  <div class="acts">${(NX[o.status]||[]).map(a=>`<button class="btn s ${a[2]}" onclick="setSt('${esc(o.id)}','${a[0]}')">${a[1]}</button>`).join("")}<button class="btn s g" onclick="prn('${esc(o.id)}')">🖨 Imprimir</button><button class="btn s g" onclick="setSt('${esc(o.id)}',null)">💬 WhatsApp</button></div></div>`;
+}
+function msg(o,s){return(CFG.m[s]||"").replace(/\{(\w+)\}/g,(_,k)=>({nome:o.nome,pedido:o.id,total:R(o.total),tempo:CFG.tempo,loja:CFG.nome}[k]||""))}
+async function setSt(id,s){
+  const o=ORD.find(x=>x.id===id);if(!o)return;
+  wa(o.tel,s?msg(o,s):`Olá ${o.nome}! Aqui é da ${CFG.nome}, sobre o pedido #${o.id}.`);
+  if(!s)return;
+  try{await api("painel_status",{p_id:id,p_status:s});o.status=s}catch(e){if(e.message!=="auth")alert("Não foi possível atualizar o status. Tente de novo.")}
+  if(PW)draw();
+}
+function prn(id){
+  const o=ORD.find(x=>x.id===id);if(!o)return;
+  const it=Array.isArray(o.itens)?o.itens:[];
+  $("#ticket").innerHTML=`<div style="text-align:center"><b>${esc(CFG.nome)}</b><br>PEDIDO #${esc(o.id)}<br>${new Date(o.criado_em).toLocaleString("pt-BR")}</div><hr>${it.map(esc).join("<br>")}<hr>Subtotal: ${R(o.subtotal||0)}<br>Entrega: ${Number(o.taxa_entrega)>0?R(o.taxa_entrega):(o.distancia_km!=null?"Grátis":"a combinar")}${o.distancia_km!=null?" ("+kmTxt(o.distancia_km)+" km)":""}<hr>Cliente: ${esc(o.nome)}<br>Tel: ${esc(o.tel)}<br>End: ${esc(o.endereco)}<br>Pgto: ${esc(o.pagamento||"")}${o.obs?`<br>Obs: ${esc(o.obs)}`:""}<hr><b>TOTAL: ${R(o.total)}</b>`;
+  try{print()}catch(e){alert("Impressão bloqueada neste ambiente.")}
+}
+const pn=s=>{s=String(s||"");return s.includes(",")?(parseFloat(s.replace(/\./g,"").replace(",","."))||0):(parseFloat(s)||0)};
+function parseOrder(t){
+  const g=r=>((t.match(r)||[])[1]||"").trim(),km=g(/\(([\d.,]+)\s*km\)/);
+  return{id:g(/Pedido #(\d+)/)||String(Math.floor(100000+Math.random()*900000)),status:"novo",nome:g(/^Nome:\s*(.+)/m),tel:g(/^WhatsApp:\s*(.+)/m),endereco:g(/^Endere[çc]o:\s*(.+)/m),pagamento:g(/^Pagamento:\s*(.+)/m),obs:g(/^Obs:\s*(.+)/m)||null,
+  itens:t.split("\n").map(l=>l.trim()).filter(l=>/^\d+\s*[×x]\s*\S/.test(l)),subtotal:pn(g(/^Subtotal:\s*R\$\s*([\d.,]+)/m)),taxa_entrega:pn(g(/^Entrega:\s*R\$\s*([\d.,]+)/m)),distancia_km:km?pn(km):null,total:pn(g(/^Total:\s*R\$\s*([\d.,]+)/m))};
+}
+async function addOrder(o){
+  if(ORD.some(x=>x.id===o.id)){alert("Esse pedido já está na lista.");return}
+  try{await api("painel_pedido_novo",{p_pedido:o});await loadOrders()}catch(e){if(e.message!=="auth")alert("Não foi possível registrar o pedido.");return}
+  if(PW)draw();
+}
+function paste(){
+  $("#sheet").innerHTML=`<h2>Colar pedido</h2><p class="mut">Copie a mensagem do pedido no WhatsApp e cole aqui.</p><textarea id="p-t" rows="9"></textarea><button class="btn ok" style="margin-top:12px" id="p-ok">Importar pedido</button>`;
+  $("#ov").classList.add("on");
+  try{navigator.clipboard.readText().then(t=>{if(/Pedido #/.test(t))$("#p-t").value=t}).catch(()=>{})}catch(e){}
+  $("#p-ok").onclick=()=>{const o=parseOrder($("#p-t").value);if(!o.itens.length){alert("Não encontrei itens na mensagem.");return}$("#ov").classList.remove("on");addOrder(o)};
+}
+function manual(){
+  $("#sheet").innerHTML=`<h2>Pedido manual</h2><label>Nome</label><input id="m-n"><label>WhatsApp</label><input id="m-t" type="tel"><label>Endereço</label><input id="m-e"><label>Itens (um por linha)</label><textarea id="m-i" rows="4" placeholder="1× Mussarela (Grande)"></textarea><label>Pagamento</label><input id="m-p" value="Pix"><label>Entrega (R$)</label><input id="m-d" inputmode="decimal" value="0"><label>Total (R$)</label><input id="m-v" inputmode="decimal"><button class="btn ok" style="margin-top:14px" id="m-ok">Registrar</button>`;
+  $("#ov").classList.add("on");
+  $("#m-ok").onclick=()=>{
+    const itens=$("#m-i").value.split("\n").map(s=>s.trim()).filter(Boolean),n=$("#m-n").value.trim(),t=$("#m-t").value.trim(),e=$("#m-e").value.trim();
+    if(!n||!t||!e||!itens.length){alert("Preencha nome, WhatsApp, endereço e itens.");return}
+    const ent=pn($("#m-d").value),tot=pn($("#m-v").value);
+    $("#ov").classList.remove("on");
+    addOrder({id:String(Math.floor(100000+Math.random()*900000)),status:"novo",nome:n,tel:t,endereco:e,pagamento:$("#m-p").value,obs:null,itens,subtotal:Math.max(0,tot-ent),taxa_entrega:ent,distancia_km:null,total:tot});
+  };
+}
+/* edição */
+function tCar(){
+  return `<div class="oc"><b>Tamanhos das pizzas</b>`+DR.sizes.map((z,j)=>`<div class="ed" style="grid-template-columns:1fr 1fr;margin-top:6px"><input value="${esc(z[0])}" oninput="DR.sizes[${j}][0]=this.value"><input value="${esc(z[1])}" oninput="DR.sizes[${j}][1]=this.value"></div>`).join("")+`</div>`+
+  DR.menu.map((c,ci)=>`<div class="oc"><div class="ed" style="grid-template-columns:1fr auto"><input value="${esc(c[0])}" oninput="DR.menu[${ci}][0]=this.value" placeholder="Categoria"><button class="btn s g" onclick="DR.menu.splice(${ci},1);draw()">Remover</button></div><label style="display:flex;gap:8px;align-items:center;text-transform:none"><input type="checkbox" style="width:auto" ${c[2]?"checked":""} onchange="DR.menu[${ci}][2]=this.checked;DR.menu[${ci}][1].forEach(it=>{if(!it[4]||!it[4].length)it[4]=DR.sizes.map(()=>it[2])});draw()"> Vendida por tamanho</label>`+
+  c[1].map((it,ii)=>`<div class="ed" style="grid-template-columns:1fr auto"><input value="${esc(it[1])}" oninput="DR.menu[${ci}][1][${ii}][1]=this.value" placeholder="Nome"><button class="btn s g" onclick="DR.menu[${ci}][1].splice(${ii},1);draw()">✕</button></div><div class="ed d"><input value="${esc(it[3])}" oninput="DR.menu[${ci}][1][${ii}][3]=this.value" placeholder="Descrição"></div>`+
+   (c[2]?`<div class="ed" style="grid-template-columns:repeat(${DR.sizes.length},1fr)">${DR.sizes.map((z,j)=>`<input type="number" step="0.5" title="${esc(z[0])}" placeholder="${esc(z[0])}" value="${(it[4]||[])[j]||0}" oninput="DR.menu[${ci}][1][${ii}][4][${j}]=Number(this.value)||0">`).join("")}</div>`:`<div class="ed d"><input type="number" step="0.5" value="${it[2]}" oninput="DR.menu[${ci}][1][${ii}][2]=Number(this.value)||0"></div>`)).join("")+
+  `<button class="btn s" onclick="DR.menu[${ci}][1].push(['i'+Date.now(),'Novo item',0,'',DR.sizes.map(()=>0)]);draw()">+ Item</button></div>`).join("")+`<button class="btn s g" onclick="DR.menu.push(['Nova categoria',[],false]);draw()">+ Categoria</button>`+saveBtn();
+}
+const gp=p=>p.split(".").reduce((a,b)=>a&&a[b],DR);
+function setp(p,v){const a=p.split(".");let o=DR;while(a.length>1)o=o[a.shift()];o[a[0]]=v}
+function fld(l,p,o){
+  o=o||{};const v=esc(gp(p)==null?"":gp(p));
+  return `<label>${l}</label>`+(o.ta?`<textarea rows="3" oninput="setp('${p}',this.value)">${v}</textarea>`:`<input ${o.dec?'inputmode="decimal" ':""}value="${v}" oninput="setp('${p}',this.value)">`)+(o.h?`<p class="mut" style="margin:4px 0 0">${o.h}</p>`:"");
+}
+function tCfg(){
+  return `<h2>Loja</h2>`+fld("Nome da loja","nome")+fld("WhatsApp da pizzaria (com DDD)","zap",{h:"Só números, com DDD. Ex.: 5519999999999"})+fld("Tempo estimado","tempo")+
+  `<h2>Entrega</h2>`+fld("Endereço da pizzaria","endereco",{h:"Rua, número e bairro em Piracicaba. É daqui que a distância até o cliente é medida."})+fld("Taxa base (R$)","taxa_base",{dec:1})+fld("Valor por km (R$)","valor_km",{dec:1})+fld("Distância máxima de entrega (km)","dist_max",{dec:1})+fld("Entrega grátis a partir de (R$)","gratis_acima",{dec:1,h:"Deixe vazio para não ter entrega grátis."})+
+  `<h2>Mensagens por WhatsApp</h2><p class="mut">Use {nome} {pedido} {total} {tempo} {loja}. Abrem prontas no WhatsApp do cliente quando você muda o status.</p>`+
+  Object.keys(ST).filter(k=>k!=="novo").map(k=>fld(ST[k],"m."+k,{ta:1})).join("")+saveBtn()+
+  `<h2>Senha do painel</h2><label>Nova senha (mínimo 6 caracteres)</label><input id="np" type="password" autocomplete="new-password"><button class="btn s" style="margin-top:10px" onclick="trocarSenha()">Trocar senha</button>`;
+}
+async function trocarSenha(){
+  const v=$("#np").value;if(v.length<6){alert("Use pelo menos 6 caracteres.");return}
+  try{const r=await api("painel_trocar_senha",{p_nova:v});if(r&&r.ok){PW=v;try{sessionStorage.setItem("kp_pw",v)}catch(e){}$("#np").value="";alert("Senha trocada.")}else alert("Não foi possível trocar a senha.")}catch(e){if(e.message!=="auth")alert("Erro ao trocar a senha.")}
+}
+async function save(){
+  const n=v=>{const x=parseFloat(String(v).replace(",","."));return isNaN(x)?null:x};
+  DR.menu.forEach(c=>c[1].forEach(i=>{if(c[2])i[2]=(i[4]||[])[2]||i[2]}));
+  const row={nome:DR.nome,zap:DR.zap,tempo:DR.tempo,endereco:DR.endereco,taxa_base:n(DR.taxa_base),valor_km:n(DR.valor_km),dist_max:n(DR.dist_max),gratis_acima:n(DR.gratis_acima),mensagens:DR.m,cardapio:{sizes:DR.sizes,menu:DR.menu}};
+  try{
+    const r=await api("painel_config_salvar",{p_config:row});
+    if(r&&r.ok){applyCfg(JSON.parse(JSON.stringify(row)));renderMenu();alert("Salvo! O site já está atualizado para os clientes.")}
+    else alert("Não foi possível salvar.");
+  }catch(e){if(e.message!=="auth")alert("Não foi possível salvar: "+(e.message||e))}
+}
+
+/* ===== início ===== */
+renderMenu();loadConfig();route();
+</script>
+</body></html>
